@@ -1,18 +1,13 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 )
 
 func home(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Cache-Control", "public, max-age=31536000")
-	w.Header().Add("Cache-Control", "public")
-	w.Header().Add("Cache-Control", "max-age=31536000")
-	w.Header().Del("Cache-Control")
-	w.Header().Get("Cache-Control")
-	w.Header().Set("Content-Type", "application/json")
-	w.Write([]byte(`{"name":"Alex"}`))
 	if r.URL.Path != "/" {
 		http.NotFound(w, r)
 		return
@@ -21,7 +16,12 @@ func home(w http.ResponseWriter, r *http.Request) {
 }
 
 func showSnippet(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Отображение заметки..."))
+	id, err := strconv.Atoi(r.URL.Query().Get("id"))
+	if err != nil || id < 1 {
+		http.NotFound(w, r)
+		return
+	}
+	fmt.Fprintf(w, "Отображение выбранной заметки с ID %d...", id)
 }
 
 func createSnippet(w http.ResponseWriter, r *http.Request) {
