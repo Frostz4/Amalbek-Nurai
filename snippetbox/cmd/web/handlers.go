@@ -51,5 +51,9 @@ func createSnippet(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	func downloadHandler(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "./ui/static/file.zip")
+	}
+
 	w.Write([]byte("Создание новой заметки..."))
 }
