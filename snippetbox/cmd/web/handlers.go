@@ -41,18 +41,15 @@ func showSnippet(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Fprintf(w, "Отображение определенной заметки с ID %d...", id)
+	fmt.Fprintf(w, "Отображение выбранной заметки с ID %d...", id)
 }
 
 func createSnippet(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		w.Header().Set("Allow", http.MethodPost)
-		http.Error(w, "Метод не дозволен", 405)
-		return
-	}
 
-	func downloadHandler(w http.ResponseWriter, r *http.Request) {
-		http.ServeFile(w, r, "./ui/static/file.zip")
+		http.Error(w, "Метод запрещен!", 405)
+		return
 	}
 
 	w.Write([]byte("Создание новой заметки..."))
